@@ -16,6 +16,26 @@ public class Zoom {
     public static Scanner myObj = new Scanner(System.in);
     public static Connection conn = null;
     public static Statement stmt = null;
+    public static int Userid = -1;
+    public static String Name="";
+    
+    public static void welcome(){
+        System.out.println(
+"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n" +
+"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n" +
+"z::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n" +
+"zzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n" +
+"      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n" +
+"     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+"    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+"   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+"  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n" +
+" z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n" +
+"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n" +
+"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
+            System.out.println("\nWelcome to zoom. The car rental platform.\n");
+    }
+    
     public static void connect(){
         try {
             try {
@@ -33,6 +53,25 @@ public class Zoom {
         }
         catch (Exception excep) {
             excep.printStackTrace();
+        }
+    }
+    
+    public static ResultSet query(String sql){
+        try{
+            return stmt.executeQuery(sql);
+        }
+        catch (Exception excep) {
+             excep.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static void update(String sql){
+        try{
+            stmt.executeUpdate(sql);
+        }
+        catch (Exception excep) {
+             excep.printStackTrace();
         }
     }
     
@@ -68,24 +107,9 @@ public class Zoom {
     }
     
     public static void menu(){
-        connect();
         int n=0;
-        while(n!=3){
+        while(true){
             clear();
-            System.out.println(
-"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n" +
-"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n" +
-"z::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n" +
-"zzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n" +
-"      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n" +
-"     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n" +
-" z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n" +
-"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n" +
-"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
-            System.out.println("\nWelcome to zoom. The car rental platform.\n");
             System.out.println("1. Register\n2. Login\n3. Exit\n");
             n=intinput("Enter your choice: ");
             if(n==3)System.exit(0);
@@ -95,25 +119,43 @@ public class Zoom {
                 String name= input("Name: ");
                 String email= input("Email: ");
                 String password= input("Password: ");
-                try{
-                    stmt.executeUpdate("INSERT INTO users VALUES (null, '"+ name +"', '"+ email +"','"+ password +"')");
-                }
-                catch (SQLException excep) {
-                    excep.printStackTrace();
-                }
-                catch (Exception excep) {
-                     excep.printStackTrace();
-                }
+                update("INSERT INTO users VALUES (null, '"+ name +"', '"+ email +"','"+ password +"')");
             }
             else if(n==2){
-                
+                System.out.println("Login to ZOOM\n\n");
+                String email= input("Email: ");
+                String password= input("Password: ");
+                ResultSet rs=query("SELECT * FROM users WHERE email='"+ email +"' AND password='"+ password +"'");
+                try
+                {
+                    if(rs.next())
+                    {
+                        Userid=rs.getInt("id");
+                        Name=rs.getString("name");
+                        System.out.println("Login Successful!  Welcome "+Name);
+                        return;
+
+                    }
+                    else
+                    {
+                        System.out.println("Incorrect Email or Password");
+                    }
+                }
+                catch (Exception excep) {
+                    excep.printStackTrace();
+                }
+            }
+            else if(n==3){
+                System.exit(0);
             }
         }
-        
-
     }
+    
     public static void main(String[] args) {
+        connect();
+        welcome();
         menu();
+        disconnect();
     }
     
 }
