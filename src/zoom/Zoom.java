@@ -11,6 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 import java.util.Scanner;
 
+import zoom.Database.java;
 
 public class Zoom {
     public static Scanner myObj = new Scanner(System.in);
@@ -18,42 +19,23 @@ public class Zoom {
     public static Statement stmt = null;
     public static int Userid = -1;
     public static String Name="";
+    protected static Database db = new Database;
     
     public static void welcome(){
         System.out.println(
-"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n" +
-"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n" +
-"z::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n" +
-"zzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n" +
-"      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n" +
-"     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
-"  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n" +
-" z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n" +
-"z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n" +
-"zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
-            System.out.println("\nWelcome to zoom. The car rental platform.\n");
-    }
-    
-    public static void connect(){
-        try {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            }
-            catch (Exception e) {
-                System.out.println(e);
-            }
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/zoom", "admin", "admin");
-//            System.out.println("Connection is created successfully:");
-            stmt = (Statement) conn.createStatement();
-        }
-        catch (SQLException excep) {
-            excep.printStackTrace();
-        }
-        catch (Exception excep) {
-            excep.printStackTrace();
-        }
+        "zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n" +
+        "z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n" +
+        "z::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n" +
+        "zzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n" +
+        "      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n" +
+        "     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+        "    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+        "   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n" +
+        "  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n" +
+        " z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n" +
+        "z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n" +
+        "zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
+                    System.out.println("\nWelcome to zoom. The car rental platform.\n");
     }
     
     public static ResultSet query(String sql){
@@ -73,21 +55,6 @@ public class Zoom {
         catch (Exception excep) {
              excep.printStackTrace();
         }
-    }
-    
-    public static void disconnect(){
-        try {
-            if (stmt != null)
-            conn.close();
-        }
-        catch (SQLException se) {}
-        try {
-            if (conn != null)
-            conn.close();
-        }
-        catch (SQLException se) {
-            se.printStackTrace();
-        } 
     }
     
     public static void clear(){
@@ -152,10 +119,9 @@ public class Zoom {
     }
     
     public static void main(String[] args) {
-        connect();
         welcome();
-        menu();
-        disconnect();
+//        menu();
+        
     }
     
 }
