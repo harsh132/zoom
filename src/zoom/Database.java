@@ -13,6 +13,9 @@ package zoom;
 import java.sql.*;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class Database {
     public static Connection conn = null;
@@ -37,8 +40,8 @@ class Database {
             excep.printStackTrace();
         }
     }
-
-    public ResultSet query(String sql){
+//    Helpers
+    public static ResultSet query(String sql){
         try{
             return stmt.executeQuery(sql);
         }
@@ -48,7 +51,7 @@ class Database {
         return null;
     }
     
-    public void update(String sql){
+    public static void update(String sql){
         try{
             stmt.executeUpdate(sql);
         }
@@ -71,5 +74,30 @@ class Database {
         catch (SQLException se) {
             se.printStackTrace();
         } 
+    }
+    
+//    Queries
+    public static void getCars(String city, String capacity){    
+        try {
+            ResultSet rs = query("SELECT * FROM users WHERE city='"+ city + "AND capacity >= '" + capacity+ "'");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            
+            while (rs.next()) {
+                //Print one row
+                for(int i = 1 ; i <= columnsNumber; i++){
+                    
+                    System.out.print(rs.getString(i) + " "); //Print one element of a row
+                    
+                }
+            }   
+        } catch (Exception excep) {
+                        excep.printStackTrace();
+        }
+    }
+    
+    public static void rentCar(String carID){
+        
+//        update("INSERT INTO orders VALUES (null, 'rent', '"+ rent +"','"+ carID +"'"+uid +"'"+leaser +"'");
     }
 }

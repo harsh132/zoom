@@ -5,7 +5,7 @@
  */
 package zoom;
 
-import java.io.Console;
+//import java.io.Console;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
@@ -46,7 +46,7 @@ public class Menu {
                     db.update("INSERT INTO users VALUES (null, '"+ inpName +"', '"+ inpEmail +"','"+ inpPassword +"')");
                     break;
 
-                case 2: 
+                case 2:
                     System.out.println("Login to ZOOM\n\n");
                     inpEmail= input("Email: ");
                     inpPassword= input("Password: ");
@@ -81,11 +81,6 @@ public class Menu {
         }
     }
 
-    public static void rent(String city){
-        ResultSet
-
-    }
-
     public static void dashboard(){
         int n=0;
         while(true){
@@ -96,16 +91,20 @@ public class Menu {
             switch(n)
             {
                 case 1:
-                    String city=input("Enter your location: ");
-                    rent(city);
+                    String city = input("Enter your location .: ");
+                    String capacity = input("Enter the desired capacity .: ");
+                    db.getCars(city, capacity);
+                    
+                    String carID = input("Enter the ID of the car you want to rent .: ");
+                    db.rentCar(carID, user.uid );
                 break;
 
                 case 2:
-                    lease();
+//                    lease();
                 break;
 
                 case 3:
-                    history();
+//                    history();
                 break;
 
                 case 4:

@@ -12,7 +12,8 @@ public class Zoom {
     protected static User user = new User();
     protected static Menu menu = new Menu(db,user);
     
-       //        db.finalize();        
+    public static void main(String[] args) {
+               db.finalize();        
     }
     
 }
