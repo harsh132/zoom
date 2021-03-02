@@ -38,7 +38,27 @@ class Database {
         }
     }
 
-    protected void finalize()  throws Throwable{
+    public ResultSet query(String sql){
+        try{
+            return stmt.executeQuery(sql);
+        }
+        catch (Exception excep) {
+             excep.printStackTrace();
+        }
+        return null;
+    }
+    
+    public void update(String sql){
+        try{
+            stmt.executeUpdate(sql);
+        }
+        catch (Exception excep) {
+             excep.printStackTrace();
+        }
+    }
+
+    protected void finalize(){
+        System.out.println("Disconnected");
         try {
             if (stmt != null)
             conn.close();
@@ -53,4 +73,3 @@ class Database {
         } 
     }
 }
-
