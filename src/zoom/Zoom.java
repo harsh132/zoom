@@ -6,17 +6,12 @@
  */
 package zoom;
 
-import java.io.*;
-
 public class Zoom {
-    public static int Userid = -1;
-    public static String Name="";
+
     protected static Database db = new Database();
+    protected static User user = new User();
+    protected static Menu menu = new Menu(db,user);
     
-    protected static Menu menu = new Menu(db);
-    
-    
-    public static void main(String[] args) {
        //        db.finalize();        
     }
     
