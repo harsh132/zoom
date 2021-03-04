@@ -79,18 +79,20 @@ class Database {
                 return false;
             } else {
                 System.out.print("📚 📗 Available Cars .: \n\n");
-                System.out.printf(" %5s | %20s | %15s | %10s | %10s\n", "🚙 ID", "MODEL", "💺 CAPACITY", "BOOTSPACE",
+                System.out.format("%5s | %35s | %10s | %10s | %10s\n", "🚙 ID", "MODEL", "💺 CAPACITY", "BOOTSPACE",
                         "💰 RENT");
-                System.out.println("------+----------------------+-----------------+------------+------------");
+                System.out
+                        .println("------+-------------------------------------+------------+------------+------------");
 
                 do {
                     // one row
                     // for (int i = 1; i <= columnsNumber; i++) {
                     // System.out.print(" " + rs.getString(i) + " "); // Print one element of a row
                     // }
-                    System.out.format("%5s | %20s | %15s | %10s | %10s\n", rs.getInt("cid"), rs.getString("model"),
+                    System.out.format("%5s | %35s | %10s | %10s | %10s\n", rs.getInt("cid"), rs.getString("model"),
                             rs.getInt("capacity"), rs.getInt("bootspace") == 1 ? 'Y' : 'N', rs.getInt("rent"));
                 } while (rs.next());
+                return true;
             }
         } catch (Exception excep) {
             excep.printStackTrace();
@@ -109,7 +111,7 @@ class Database {
             stmt1.setInt(3, user.uid);
             stmt1.setInt(4, rs.getInt("owner"));
             stmt1.setString(5, rs.getString("city"));
-            stmt1.executeUpdate();
+            stmt1.executeUpdate(); // Order Table Update
             update("UPDATE cars SET status=0 WHERE cid='" + carID + "'");
         } catch (Exception excep) {
             excep.printStackTrace();
@@ -135,22 +137,22 @@ class Database {
 
     public boolean history(User user) {
         try {
-            ResultSet rs = query("SELECT * FROM orders WHERE renter='" + user.uid + "' OR leaser = '" + user.uid + "'");
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
+            ResultSet rs = query("SELECT * FROM orders o JOIN cars c ON o.car_id=c.cid WHERE o.renter=" + user.uid
+                    + " OR o.leaser = " + user.uid);
 
-            if (columnsNumber == 0) {
+            if (!rs.next()) {
                 System.out.print("\t!!!! 🔴 No orders found 🔴 !!!!");
                 return false;
             } else {
-                System.out.print("📚 📗 Your Orders .: ");
-                while (rs.next()) {
-                    // Print one row
-                    for (int i = 1; i <= columnsNumber; i++) {
-                        System.out.print(" 🛒  " + rs.getString(i) + " "); // Print one element of a row
-                    }
-                    return true;
-                }
+                System.out.print("📚 📗 Your Orders .:\n\n");
+                System.out.format("%10s | %35s | %10s | %20s\n", "Order ID", "🚗 Model", "💰 Expense", "🌇 City");
+                System.out.println(
+                        "-----------+-------------------------------------+------------+-------------------------");
+                do {
+                    System.out.format("%10s | %35s | %10s | %20s\n", rs.getInt("oid"), rs.getString("model"),
+                            rs.getInt("expense") * ((rs.getInt("renter") == user.uid) ? -1 : 1), rs.getString("city"));
+                } while (rs.next());
+                return true;
             }
         } catch (Exception excep) {
             excep.printStackTrace();
