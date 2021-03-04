@@ -10,10 +10,11 @@ public class Zoom {
 
     protected static Database db = new Database();
     protected static User user = new User();
-    protected static Menu menu = new Menu(db,user);
-    
+    protected static Menu menu = new Menu(db, user);
+
     public static void main(String[] args) {
-               db.finalize();        
+        menu.loginMenu();
+        db.finalize();
     }
-    
+
 }
