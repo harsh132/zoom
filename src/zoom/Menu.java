@@ -57,10 +57,10 @@ public class Menu {
 
                     ResultSet rs = db.query(
                             "SELECT * FROM users WHERE email='" + inpEmail + "' AND password='" + inpPassword + "'");
-
+                    
                     try {
                         if (rs.next()) {
-                            user.uid = rs.getInt("id");
+                            user.uid = rs.getInt("uid");
                             user.name = rs.getString("name");
                             user.email = rs.getString("email");
                             System.out.println("Login Successful!  Welcome " + user.name);
