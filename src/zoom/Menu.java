@@ -35,15 +35,15 @@ public class Menu {
 
             clear();
             System.out.println("\n1. Register\n2. Login\n3. Exit\n");
-            n = intinput("Enter your choice: ");
+            n = intinput(" 🟢 Enter your choice: ");
             clear();
 
             switch (n) {
                 case 1:
                     System.out.println("\n\nRegister to ZOOM\n\n");
-                    inpName = input("Name: ");
-                    inpEmail = input("Email: ");
-                    inpPassword = input("Password: ");
+                    inpName = input("\tName: ");
+                    inpEmail = input("\tEmail: ");
+                    inpPassword = input("\tPassword: ");
 
                     db.update("INSERT INTO users VALUES (null, '" + inpName + "', '" + inpEmail + "','" + inpPassword
                             + "')");
@@ -51,8 +51,8 @@ public class Menu {
 
                 case 2:
                     System.out.println("\n\nLogin to ZOOM\n");
-                    inpEmail = input("Email: ");
-                    inpPassword = input("Password: ");
+                    inpEmail = input("\tEmail: ");
+                    inpPassword = input("\tPassword: ");
                     // char[] inpPassword = con.readPassword("Enter password : ");
 
                     ResultSet rs = db.query(
@@ -60,13 +60,13 @@ public class Menu {
 
                     try {
                         if (rs.next()) {
-                            user.uid = rs.getInt("id");
+                            user.uid = rs.getInt("uid");
                             user.name = rs.getString("name");
                             user.email = rs.getString("email");
-                            System.out.println("Login Successful!  Welcome " + user.name);
+                            System.out.println("\n 🔵 Login Successful!  Welcome " + user.name);
                             dashboard();
                         } else {
-                            System.out.println("Incorrect Email or Password");
+                            System.out.println("\n 🔴 Incorrect Email or Password");
                         }
                     } catch (Exception excep) {
                         excep.printStackTrace();
@@ -85,25 +85,25 @@ public class Menu {
         while (true) {
 
             System.out.println("\n\n1. Rent a car\n2. Lease your car\n3. Order history\n4. Logout\n");
-            n = intinput("Enter your choice: ");
+            n = intinput(" 🚀 Enter your choice: ");
             clear();
             switch (n) {
                 case 1:
                     String city = input("\tEnter your location .: ");
                     int capacity = intinput("\tEnter the desired capacity .: ");
-                    db.getCars(city, capacity);
 
-                    String carID = input("\tEnter the ID of the car you want to rent .: ");
-                    db.rentCar(carID, user);
-
+                    if (db.getCars(city, capacity)) {
+                        String carID = input("\n\n\t ➡️ Enter the ID of the car you want to rent .: ");
+                        db.rentCar(carID, user);
+                    }
                     break;
 
                 case 2:
-                    int rent = intinput("\tEnter the rent .: ");
-                    capacity = intinput("\tEnter the capacity(number of seats) .: ");
-                    int bootspace = intinput("\t Does the car have trunk/bootspace. (Y/N).: ");
-                    String model = input("\tEnter the model of the car.: ");
-                    String c_city = input("\tEnter the location of the car.: ");
+                    int rent = intinput("\t ➡️ Enter the rent .: ");
+                    capacity = intinput("\t ➡️ Enter the capacity(number of seats) .: ");
+                    int bootspace = input("\t ➡️ Does the car have trunk/bootspace. (Y/N).: ") == "Y" ? 1 : 0;
+                    String model = input("\t ➡️ Enter the model of the car.: ");
+                    String c_city = input("\t ➡️ Enter the location of the car.: ");
 
                     Car car = new Car(rent, capacity, bootspace, model, c_city);
                     db.lease(user, car);
@@ -140,18 +140,18 @@ public class Menu {
     }
 
     private static void greet() {
-        System.out.println("\t\tzzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n"
-                + "\t\tz:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n"
-                + "\t\tz::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n"
-                + "\t\tzzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n"
-                + "\t\t      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n"
-                + "\t\t     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
-                + "\t\t    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
-                + "\t\t   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
-                + "\t\t  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n"
-                + "\t\t z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n"
-                + "\t\tz:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n"
-                + "\t\tzzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
+        System.out.println("\tzzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo       mmmmmmm    mmmmmmm   \n"
+                + "\tz:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo   mm:::::::m  m:::::::mm \n"
+                + "\tz::::::::::::::z  o:::::::::::::::o o:::::::::::::::o m::::::::::mm::::::::::m\n"
+                + "\tzzzzzzzz::::::z   o:::::ooooo:::::o o:::::ooooo:::::o m::::::::::::::::::::::m\n"
+                + "\t      z::::::z    o::::o     o::::o o::::o     o::::o m:::::mmm::::::mmm:::::m\n"
+                + "\t     z::::::z     o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
+                + "\t    z::::::z      o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
+                + "\t   z::::::z       o::::o     o::::o o::::o     o::::o m::::m   m::::m   m::::m\n"
+                + "\t  z::::::zzzzzzzz o:::::ooooo:::::o o:::::ooooo:::::o m::::m   m::::m   m::::m\n"
+                + "\t z::::::::::::::z o:::::::::::::::o o:::::::::::::::o m::::m   m::::m   m::::m\n"
+                + "\tz:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n"
+                + "\tzzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
 
         System.out.println("\n\tWelcome to zoom. The car rental platform. 🚗  🚙  🏎️\n");
     }

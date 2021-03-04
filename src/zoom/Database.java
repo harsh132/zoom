@@ -59,30 +59,43 @@ class Database {
     protected void finalize() {
         System.out.println("Disconnected");
         try {
-        if (stmt != null)
-            conn.close();
+            if (stmt != null)
+                conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
         }
     }
 
     // Queries
-    public void getCars(String city, int capacity) {
+    public boolean getCars(String city, int capacity) {
         try {
-            ResultSet rs = query(
-                    "SELECT * FROM cars WHERE city='" + city + "' AND capacity >= '" + capacity + "' AND status = '1'");
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
+            ResultSet rs = query("SELECT `cid`,`model`,`capacity`,`bootspace`,`rent` FROM cars WHERE city='" + city
+                    + "' AND capacity >= " + capacity + " AND status = 1");
+            // ResultSetMetaData rsmd = rs.getMetaData();
+            // int columnsNumber = rsmd.getColumnCount();
 
-            while (rs.next()) {
-                // Print one row
-                for (int i = 1; i <= columnsNumber; i++) {
-                    System.out.print(rs.getString(i) + " "); // Print one element of a row
-                }
+            if (!rs.next()) {
+                System.out.print("\t!!!! 🔴 No cars found 🔴 !!!!");
+                return false;
+            } else {
+                System.out.print("📚 📗 Available Cars .: \n\n");
+                System.out.printf(" %5s | %20s | %15s | %10s | %10s\n", "🚙 ID", "MODEL", "💺 CAPACITY", "BOOTSPACE",
+                        "💰 RENT");
+                System.out.println("------+----------------------+-----------------+------------+------------");
+
+                do {
+                    // one row
+                    // for (int i = 1; i <= columnsNumber; i++) {
+                    // System.out.print(" " + rs.getString(i) + " "); // Print one element of a row
+                    // }
+                    System.out.format("%5s | %20s | %15s | %10s | %10s\n", rs.getInt("cid"), rs.getString("model"),
+                            rs.getInt("capacity"), rs.getInt("bootspace") == 1 ? 'Y' : 'N', rs.getInt("rent"));
+                } while (rs.next());
             }
         } catch (Exception excep) {
             excep.printStackTrace();
         }
+        return false;
     }
 
     public void rentCar(String carID, User user) {
@@ -125,16 +138,16 @@ class Database {
             ResultSet rs = query("SELECT * FROM orders WHERE renter='" + user.uid + "' OR leaser = '" + user.uid + "'");
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
-            
-            if(columnsNumber == 0){
-                System.out.print("\t!!!! 🔴 No cars found 🔴 !!!!");
+
+            if (columnsNumber == 0) {
+                System.out.print("\t!!!! 🔴 No orders found 🔴 !!!!");
                 return false;
-            }else{
-                System.out.print("📚 📗 Available Cars .: ");
+            } else {
+                System.out.print("📚 📗 Your Orders .: ");
                 while (rs.next()) {
                     // Print one row
                     for (int i = 1; i <= columnsNumber; i++) {
-                        System.out.print(" 🛒  "+rs.getString(i) + " "); // Print one element of a row
+                        System.out.print(" 🛒  " + rs.getString(i) + " "); // Print one element of a row
                     }
                     return true;
                 }
