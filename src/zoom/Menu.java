@@ -90,7 +90,7 @@ public class Menu {
             switch (n) {
                 case 1:
                     String city = input("Enter your location .: ");
-                    String capacity = input("Enter the desired capacity .: ");
+                    int capacity = intinput("Enter the desired capacity .: ");
                     db.getCars(city, capacity);
 
                     String carID = input("Enter the ID of the car you want to rent .: ");
@@ -106,11 +106,11 @@ public class Menu {
                     // public static String status = null;
                     // public static String city = null;
                     int rent = intinput("\tEnter the rent .: ");
-                    int c_capacity = intinput("\tEnter the capacity .: ");
+                    capacity = intinput("\tEnter the capacity .: ");
                     int bootspace = intinput("\t Does the car have trunk/bootspace. (Y/N).: ");
                     String model = input("Enter the model of the car.: ");
                     String c_city = input("Enter the location of the car.: ");
-                    Car car = new Car(rent, c_capacity, bootspace, model, c_city);
+                    Car car = new Car(rent, capacity, bootspace, model, c_city);
                     db.lease(user, car);
                     break;
 
