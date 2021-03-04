@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package zoom;
-
-/**
- *
- * @author jayeshbhole
- */
-
 public class Car {
     public int rent = -1;
     public int capacity = -1;

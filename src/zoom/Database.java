@@ -1,13 +1,3 @@
-/**
- *
- * @author jayeshbhole
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package zoom;
 
 import java.sql.*;
@@ -71,8 +61,6 @@ class Database {
         try {
             ResultSet rs = query("SELECT `cid`,`model`,`capacity`,`bootspace`,`rent` FROM cars WHERE city='" + city
                     + "' AND capacity >= " + capacity + " AND status = 1");
-            // ResultSetMetaData rsmd = rs.getMetaData();
-            // int columnsNumber = rsmd.getColumnCount();
 
             if (!rs.next()) {
                 System.out.print("\t!!!! 🔴 No cars found 🔴 !!!!");
@@ -85,10 +73,6 @@ class Database {
                         .println("------+-------------------------------------+------------+------------+------------");
 
                 do {
-                    // one row
-                    // for (int i = 1; i <= columnsNumber; i++) {
-                    // System.out.print(" " + rs.getString(i) + " "); // Print one element of a row
-                    // }
                     System.out.format("%5s | %35s | %10s | %10s | %10s\n", rs.getInt("cid"), rs.getString("model"),
                             rs.getInt("capacity"), rs.getInt("bootspace") == 1 ? 'Y' : 'N', rs.getInt("rent"));
                 } while (rs.next());
