@@ -16,5 +16,4 @@ public class Zoom {
         menu.loginMenu();
         db.finalize();
     }
-
 }

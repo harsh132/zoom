@@ -95,23 +95,19 @@ public class Menu {
 
                     String carID = input("Enter the ID of the car you want to rent .: ");
                     db.rentCar(carID, user);
+                    
                     break;
 
                 case 2:
-                    // public static int owner = -1;
-                    // public static int rent = -1;
-                    // public static int capacity = -1;
-                    // public static int bootspace = 0;
-                    // public static String model = null;
-                    // public static String status = null;
-                    // public static String city = null;
                     int rent = intinput("\tEnter the rent .: ");
-                    capacity = intinput("\tEnter the capacity .: ");
+                    capacity = intinput("\tEnter the capacity(number of seats) .: ");
                     int bootspace = intinput("\t Does the car have trunk/bootspace. (Y/N).: ");
                     String model = input("Enter the model of the car.: ");
                     String c_city = input("Enter the location of the car.: ");
+                    
                     Car car = new Car(rent, capacity, bootspace, model, c_city);
                     db.lease(user, car);
+                    
                     break;
 
                 case 3:
@@ -119,7 +115,7 @@ public class Menu {
                     break;
 
                 case 4:
-
+                    
                     return;
             }
         }
@@ -157,7 +153,7 @@ public class Menu {
                 + "z:::::::::::::::z  oo:::::::::::oo   oo:::::::::::oo  m::::m   m::::m   m::::m\n"
                 + "zzzzzzzzzzzzzzzzz    ooooooooooo       ooooooooooo    mmmmmm   mmmmmm   mmmmmm");
 
-        System.out.println("\nWelcome to zoom. The car rental platform.\n");
+        System.out.println("\n\tWelcome to zoom. The car rental platform. 🚗  🚙  🏎️\n");
     }
 
 }
