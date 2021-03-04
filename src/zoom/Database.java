@@ -29,7 +29,7 @@ class Database {
                 System.out.println(e);
             }
             conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/zoom", "admin", "admin");
-            System.out.println("Connection is created successfully:");
+            System.out.println("Connection is created successfully: ✅ ");
             stmt = (Statement) conn.createStatement();
         } catch (SQLException excep) {
             excep.printStackTrace();
@@ -59,14 +59,8 @@ class Database {
     protected void finalize() {
         System.out.println("Disconnected");
         try {
-            if (stmt != null)
-                conn.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-        try {
-            if (conn != null)
-                conn.close();
+        if (stmt != null)
+            conn.close();
         } catch (SQLException se) {
             se.printStackTrace();
         }
@@ -126,20 +120,28 @@ class Database {
 
     }
 
-    public void history(User user) {
+    public boolean history(User user) {
         try {
             ResultSet rs = query("SELECT * FROM orders WHERE renter='" + user.uid + "' OR leaser = '" + user.uid + "'");
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
-
-            while (rs.next()) {
-                // Print one row
-                for (int i = 1; i <= columnsNumber; i++) {
-                    System.out.print(rs.getString(i) + " "); // Print one element of a row
+            
+            if(columnsNumber == 0){
+                System.out.print("\t!!!! 🔴 No cars found 🔴 !!!!");
+                return false;
+            }else{
+                System.out.print("📚 📗 Available Cars .: ");
+                while (rs.next()) {
+                    // Print one row
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        System.out.print(" 🛒  "+rs.getString(i) + " "); // Print one element of a row
+                    }
+                    return true;
                 }
             }
         } catch (Exception excep) {
             excep.printStackTrace();
         }
+        return false;
     }
 }
