@@ -100,14 +100,14 @@ class Database {
         return false;
     }
 
-    public void rentCar(String carID, User user) {
+    public void rentCar(int carID, User user) {
 
         try {
-            ResultSet rs = query("SELECT * FROM cars WHERE cid='" + carID + "'");
+            ResultSet rs = query("SELECT * FROM cars WHERE cid=" + carID);
             rs.next();
             PreparedStatement stmt1 = conn.prepareStatement("INSERT INTO orders VALUES (null,'rent',?,?,?,?,?)");
             stmt1.setInt(1, rs.getInt("rent"));
-            stmt1.setString(2, carID);
+            stmt1.setInt(2, carID);
             stmt1.setInt(3, user.uid);
             stmt1.setInt(4, rs.getInt("owner"));
             stmt1.setString(5, rs.getString("city"));

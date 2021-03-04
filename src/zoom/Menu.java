@@ -93,7 +93,10 @@ public class Menu {
                     int capacity = intinput("\tEnter the desired capacity .: ");
 
                     if (db.getCars(city, capacity)) {
-                        String carID = input("\n\n\t ➡️ Enter the ID of the car you want to rent .: ");
+                        int carID = intinput(
+                                "\n\n\t ➡️ Enter the ID of the car you want to rent or 0 to go back to previous menu .: ");
+                        if (carID == 0)
+                            break;
                         db.rentCar(carID, user);
                     }
                     break;
