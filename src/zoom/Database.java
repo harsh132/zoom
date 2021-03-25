@@ -88,15 +88,21 @@ class Database {
 
         try {
             ResultSet rs = query("SELECT * FROM cars WHERE cid=" + carID);
-            rs.next();
-            PreparedStatement stmt1 = conn.prepareStatement("INSERT INTO orders VALUES (null,'rent',?,?,?,?,?)");
-            stmt1.setInt(1, rs.getInt("rent"));
-            stmt1.setInt(2, carID);
-            stmt1.setInt(3, user.uid);
-            stmt1.setInt(4, rs.getInt("owner"));
-            stmt1.setString(5, rs.getString("city"));
-            stmt1.executeUpdate(); // Order Table Update
-            update("UPDATE cars SET status=0 WHERE cid='" + carID + "'");
+            if(rs.next())
+            {
+                PreparedStatement stmt1 = conn.prepareStatement("INSERT INTO orders VALUES (null,'rent',?,?,?,?,?)");
+                stmt1.setInt(1, rs.getInt("rent"));
+                stmt1.setInt(2, carID);
+                stmt1.setInt(3, user.uid);
+                stmt1.setInt(4, rs.getInt("owner"));
+                stmt1.setString(5, rs.getString("city"));
+                stmt1.executeUpdate(); // Order Table Update
+                update("UPDATE cars SET status=0 WHERE cid='" + carID + "'");
+            }
+            else
+            {
+                System.out.println("\nEnter a correct Car ID");
+            }
         } catch (Exception excep) {
             excep.printStackTrace();
         }
